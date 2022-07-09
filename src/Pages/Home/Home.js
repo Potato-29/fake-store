@@ -51,7 +51,7 @@ export default function Home() {
                 </div>
             </div>
         </div>
-        <div><h2 className='text-3xl font-bold text-center m-10'>Top Electronics</h2></div>
+        <div><h2 className='text-3xl font-bold text-center m-10'>Top Clothes</h2></div>
         <div className="flex flex-col md:flex-col lg:flex-row justify-center items-center">
             {topProducts.map((product) => (
               
