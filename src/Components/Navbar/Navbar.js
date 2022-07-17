@@ -1,15 +1,31 @@
 import React from 'react'
-import avatar from '../../assets/images/avatar.png'
+import avatar from '../../assets/images/user.png'
 import { useMediaQuery } from 'react-responsive'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CartContext, CartState } from '../../Helper/Context'
-import { useContext } from 'react'
+import { useState } from 'react'
+import { useAuth } from '../../Helper/AuthContext'
 
 
 export default function Navbar() {
 
 
     // const {cartItems, setCartItems} = useContext(CartContext)
+    const [error, setError] = useState()
+    const navigate = useNavigate()
+
+    const {logout} = useAuth()
+
+    async function handleLogout () {
+        setError("")
+
+        try{
+            await logout()
+            navigate('/')
+        } catch{
+            setError("logout failed")
+        }
+    }
 
     const {
         state: {cart},
@@ -28,16 +44,16 @@ export default function Navbar() {
     <>
         <div class="navbar sticky top-0 bg-base-300 z-10 shadow-2xl">
             <div class="flex-1">
-                <Link to='/' class="btn btn-ghost normal-case text-xl">Store</Link>
+                <Link to='/home' class="btn btn-ghost normal-case text-xl">Store</Link>
             </div>
             <div class="flex-none">    
                 {isBigScreen && <div>
                     <Link to='/products' className='p-4 hover:bg-base-300'>Products</Link>
-                        <Link to='/' href="" className='p-4 hover:bg-base-300'>Home</Link>
+                        <Link to='/home' href="" className='p-4 hover:bg-base-300'>Home</Link>
                     </div>}
                     {isDesktopOrLaptop && <div> 
                         <Link to="/products" className='p-4 hover:bg-base-300'>Products</Link>
-                        <Link to="/" className='p-4 hover:bg-base-300'>Home</Link>
+                        <Link to="/home" className='p-4 hover:bg-base-300'>Home</Link>
                         </div>}
                 {isTabletOrMobile && <div className='dropdown dropdown-end'>
                         <label tabindex="0" class="btn btn-ghost btn-circle">
@@ -47,7 +63,7 @@ export default function Navbar() {
                         </label>
                         <div tabindex="0" class="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
                             <Link to="/products" className='p-4 hover:bg-base-300'>Products</Link>
-                            <Link to="/" className='p-4 hover:bg-base-300'>Home</Link>
+                            <Link to="/home" className='p-4 hover:bg-base-300'>Home</Link>
                         </div>
                         
                     </div>}
@@ -93,12 +109,13 @@ export default function Navbar() {
                     </label>
                     <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
-                        <a class="justify-between">
+                        <Link to='/profile' class="justify-between">
                             Profile
                             <span class="badge">New</span>
-                        </a>
+                        </Link>
                         </li>
-                        <li><a>Logout</a></li>
+                        
+                        <li><button onClick={handleLogout}>Logout</button></li>
                     </ul>
                 </div>
             </div>

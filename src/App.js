@@ -10,25 +10,30 @@ import Navbar from './Components/Navbar/Navbar';
 import CartPage from './Pages/CartPage';
 import SignUpPage from './Pages/SignUpPage';
 import LoginPage from './Pages/LoginPage';
+import PrivateRoute from './Components/PrivateRoute';
+import Profile from './Pages/Profile';
 
 
 function App() {
 
+
   const [cartItems, setCartItems]  = useState([])
 
   return (
-
+      // <AuthProvider>
         <Router>
           <Navbar/>
           <Routes>
-              <Route path='/' element={<Home/>}/>
+              <Route path='/home' element={<Home/>}/>
               <Route path='/products' element={<ProductsPage/>}/>
               <Route path='/singleProduct/:id' element={<SinglePage/>}/>
               <Route path='/cart' element={<CartPage/>}/>
               <Route path='/signup' element={<SignUpPage/>}/>
-              {/* <Route path='/login' element={<LoginPage/>}/> */}
+              <Route path='/' element={<LoginPage/>}/>
+              <Route path='/profile' element={<PrivateRoute><Profile/></PrivateRoute>}/>
           </Routes>
         </Router>
+      // </AuthProvider>
   );
 }
 
